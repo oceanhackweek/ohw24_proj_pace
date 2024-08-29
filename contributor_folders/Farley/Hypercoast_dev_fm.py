@@ -80,3 +80,43 @@ def wavelength_to_rgb(wavelength, gamma=0.8):
     B *= 255
     return (int(R), int(G), int(B))
 
+import hypercoast
+import pyvista
+
+auth = earthaccess.login(persist=True)
+
+results = earthaccess.search_datasets(instrument="oci")
+
+tspan = ("2024-07-01", "2024-08-25")
+bbox = (-170, 23, -140, 33)
+
+results = earthaccess.search_data(
+    short_name="PACE_OCI_L3M_CHL_NRT",
+    temporal=tspan,
+    bounding_box=bbox,
+    granule_name="*.DAY.*.4km.*",
+)
+
+paths = earthaccess.open(results)
+
+# Open the dataset
+dataset = xr.open_dataset(paths[38])
+
+# Subset the dataset within the specified region
+subset = dataset.sel(lon=slice(-159.5, -157.5), lat=slice(27.5, 26))
+chla = subset["chlor_a"]
+
+
+subset['chlor_a'].values.max()
+
+p = hypercoast.image_cube(
+    subset,
+    variable="chlor_a",
+    cmap="jet",
+    clim=(0, 0.5),
+    rgb_wavelengths=[1000, 700, 500],
+    rgb_gamma=2,
+    widget="slice",
+)
+#p.add_text("Band slicing ", position="upper_right", font_size=14)
+p.show()
