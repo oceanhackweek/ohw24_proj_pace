@@ -97,20 +97,35 @@ results = earthaccess.search_data(
     granule_name="*.DAY.*.4km.*",
 )
 
-paths = earthaccess.open(results)
+paths = earthaccess.open(results)[35:38]
 
-# Open the dataset
-dataset = xr.open_dataset(paths[38])
+# Use dask for lazy loading
+combined_datasets = []
 
-# Subset the dataset within the specified region
-subset = dataset.sel(lon=slice(-159.5, -157.5), lat=slice(27.5, 26))
-chla = subset["chlor_a"]
+# Iterate over all the datasets
+for i in range(1, len(paths)):
+    # Open dataset without specifying chunks
+    dataset = xr.open_dataset(paths[i])  # Load the dataset first
 
+    # Rechunk the dataset after loading
+    dataset = dataset.chunk({'lon': 'auto', 'lat': 'auto'})  # Use 'auto' or set specific sizes
+    
+    # Subset the dataset within the specified region and append to list
+    subset = dataset.sel(lon=slice(-159.5, -157.5), lat=slice(27.5, 26))
+    combined_datasets.append(subset)
 
-subset['chlor_a'].values.max()
+# Concatenate all subsets along the 'dataset' dimension
+combined_dataset = xr.concat(combined_datasets, dim='dataset')
+
+# Calculate the mean Rrs value across lon and lat for each dataset
+average_per_dataset = combined_dataset.mean(dim=['lon', 'lat'])
+
+#Check dimentions
+combined_dataset.dims
+combined_dataset['chlor_a'].values
 
 p = hypercoast.image_cube(
-    subset,
+    combined_dataset,
     variable="chlor_a",
     cmap="jet",
     clim=(0, 0.5),
@@ -120,3 +135,31 @@ p = hypercoast.image_cube(
 )
 #p.add_text("Band slicing ", position="upper_right", font_size=14)
 p.show()
+
+
+
+######## Below we try for the single spectrum plot!
+
+# # #We use L2 AOP data
+results = earthaccess.search_datasets(instrument="oci")
+
+
+results = earthaccess.search_data(
+    short_name="PACE_OCI_L2_AOP_NRT",
+    count = 1,
+)
+
+paths = earthaccess.open(results)
+
+# Open the dataset
+
+dataset = hypercoast.read_pace(paths[0])
+
+dataset.dims
+
+hypercoast.viz_pace(dataset, wavelengths=[500, 510, 520, 530], ncols=2)
+
+
+latitude = 25.493961
+longitude = -91.25617
+hypercoast.filter_pace(dataset, latitude, longitude, return_plot=True)
