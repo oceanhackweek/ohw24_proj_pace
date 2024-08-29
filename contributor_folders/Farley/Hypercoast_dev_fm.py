@@ -80,3 +80,50 @@ def wavelength_to_rgb(wavelength, gamma=0.8):
     B *= 255
     return (int(R), int(G), int(B))
 
+import hypercoast
+import pyvista
+
+auth = earthaccess.login(persist=True)
+
+results = earthaccess.search_datasets(instrument="oci")
+
+start_date = "2024-08-02"
+end_date = "2024-08-12"
+
+lon_east = -160
+lat_south = 30
+lon_west = -150 
+lat_north = 33
+cloud_max = 50
+
+tspan = (start_date, end_date)
+bbox = (lon_east, lat_south, lon_west, lat_north)
+clouds = (0, cloud_max)
+
+results = earthaccess.search_data(
+    short_name="PACE_OCI_L3M_RRS_NRT",
+    temporal=tspan,
+    bounding_box=bbox,
+    granule_name="*.DAY.*.0p1deg.*",
+)
+
+
+paths = earthaccess.open(results)
+
+dataset = xr.open_dataset(paths[1])
+
+dataset.variables
+
+
+
+p = hypercoast.image_cube(
+    dataset,
+    variable="Rrs",
+    cmap="jet",
+    clim=(0, 0.5),
+    rgb_wavelengths=[1000, 700, 500],
+    rgb_gamma=2,
+    widget="slice",
+)
+p.add_text("Band slicing ", position="upper_right", font_size=14)
+p.show()

@@ -74,8 +74,8 @@ results = earthaccess.search_data(
     count=1,
 )
 
-start_date = "2024-07-01"
-end_date = "2024-07-10"
+start_date = "2024-08-02"
+end_date = "2024-08-12"
 
 lon_east = -160
 lat_south = 30
@@ -94,22 +94,36 @@ results = earthaccess.search_data(
     granule_name="*.DAY.*.0p1deg.*",
 )
 
-paths = earthaccess.open(results)[0:10]
+
+paths = earthaccess.open(results)[1:7]
 
 #Get average values
+# Use dask for lazy loading
+combined_datasets = []
 
-# Open all datasets at once and concatenate along a new dimension
-datasets = xr.open_mfdataset(paths, concat_dim="dataset_index", combine="nested", parallel=True)
+# Iterate over all the datasets
+for i in range(1, len(paths)):
+    # Open dataset without specifying chunks
+    dataset = xr.open_dataset(paths[i])  # Load the dataset first
 
-# Subset the datasets within the specified region
-subset = datasets.sel(lon=slice(-165, -156), lat=slice(30, 20))
+    # Rechunk the dataset after loading
+    dataset = dataset.chunk({'lon': 'auto', 'lat': 'auto'})  # Use 'auto' or set specific sizes
+    
+    # Subset the dataset within the specified region and append to list
+    subset = dataset.sel(lon=slice(-159.5, -157.5), lat=slice(27.5, 26))
+    combined_datasets.append(subset)
 
-# Calculate the mean Rrs value across the subset for each wavelength
-average_subset = subset.mean(dim=['lon', 'lat'])
+# Concatenate all subsets along the 'dataset' dimension
+combined_dataset = xr.concat(combined_datasets, dim='dataset')
 
-wavelengths = average_subset['wavelength'].data  # Use .data instead of .values
-dataset_indices = average_subset['dataset_index'].data
-rrs_values = average_subset['Rrs'].values.T
+# Calculate the mean Rrs value across lon and lat for each dataset
+average_per_dataset = combined_dataset.mean(dim=['lon', 'lat'])
+
+
+
+wavelengths = average_per_dataset['wavelength'].data  # Use .data instead of .values
+#dataset_indices = average_per_dataset['dataset_index'].data
+rrs_values = average_per_dataset['Rrs'].values.T
 
 
 rgb_dict = {}
