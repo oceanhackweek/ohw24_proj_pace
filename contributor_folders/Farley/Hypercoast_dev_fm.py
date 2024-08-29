@@ -87,43 +87,36 @@ auth = earthaccess.login(persist=True)
 
 results = earthaccess.search_datasets(instrument="oci")
 
-start_date = "2024-08-02"
-end_date = "2024-08-12"
-
-lon_east = -160
-lat_south = 30
-lon_west = -150 
-lat_north = 33
-cloud_max = 50
-
-tspan = (start_date, end_date)
-bbox = (lon_east, lat_south, lon_west, lat_north)
-clouds = (0, cloud_max)
+tspan = ("2024-07-01", "2024-08-25")
+bbox = (-170, 23, -140, 33)
 
 results = earthaccess.search_data(
-    short_name="PACE_OCI_L3M_RRS_NRT",
+    short_name="PACE_OCI_L3M_CHL_NRT",
     temporal=tspan,
     bounding_box=bbox,
-    granule_name="*.DAY.*.0p1deg.*",
+    granule_name="*.DAY.*.4km.*",
 )
-
 
 paths = earthaccess.open(results)
 
-dataset = xr.open_dataset(paths[1])
+# Open the dataset
+dataset = xr.open_dataset(paths[38])
 
-dataset.variables
+# Subset the dataset within the specified region
+subset = dataset.sel(lon=slice(-159.5, -157.5), lat=slice(27.5, 26))
+chla = subset["chlor_a"]
 
 
+subset['chlor_a'].values.max()
 
 p = hypercoast.image_cube(
-    dataset,
-    variable="Rrs",
+    subset,
+    variable="chlor_a",
     cmap="jet",
     clim=(0, 0.5),
     rgb_wavelengths=[1000, 700, 500],
     rgb_gamma=2,
     widget="slice",
 )
-p.add_text("Band slicing ", position="upper_right", font_size=14)
+#p.add_text("Band slicing ", position="upper_right", font_size=14)
 p.show()
