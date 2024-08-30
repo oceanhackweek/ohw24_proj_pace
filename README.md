@@ -18,6 +18,11 @@
 | Kasandra            | Bigelow    | Participant         |
 | Ben                 | Bigelow    | Participant         |
 
+## Discription
+This group of examples, linked with the PACE app (People Accessing Cool Examples), provides clear and executable scripts to work with PACE data. 
+The NASA data distribution system can be difficult to navigate, and represents a barrier to entry for inexperienced scientists. Our goal for this project was to create an interactive and simple way to pick a point in time and space and generate informative plots. Focusing on data from the new PACE satellite, we present diagnostic tools that can help users track chlorophyll, phytoplankton groups, changes in ocean color, and other data availability including SENTINAL and IFCB datasets.
+	These tools can provide students, teachers, or curious members of the public with diagnostic data about their surrounding ocean, and help to deepen the connection between people and their environment.
+
 ## Planning
 
 * Initial idea: "Create tutorials within a Streamlet app to access the PACE dataproducts and create visualizations"
