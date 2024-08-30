@@ -35,13 +35,19 @@
   
 ## Relavent Links
 
-* IFCB data
-* Streamlet repo
+* IFCB data: https://github.com/oceanhackweek/ohw24_proj_pace_us/raw/main/contributor_folders/Gulce/mvco_difcb_data.csv
+* Streamlet App: https://github.com/oceanhackweek/ohw24_proj_HAB_FE_us
+* Sentinal Repo: 
 
 ## Examples
 
-Open one of the example notebooks, load in the dependancies and data, and follow the instructions.
+To run one of the examples, follow these links to a notebook, load in the dependancies and data, and follow the instructions.
 Demo Notebooks:
-* Chlorophyll demo notebook
-* Hawai'i demo notebook
-* Long Island demo notebook
+* Chlorophyll demo notebook: https://github.com/oceanhackweek/ohw24_proj_pace_us/blob/main/final_notebooks/
+* Hawai'i demo notebook: https://github.com/oceanhackweek/ohw24_proj_pace_us/blob/main/final_notebooks/
+* Long Island demo notebook: https://github.com/oceanhackweek/ohw24_proj_pace_us/blob/main/final_notebooks/bloom_viz_fm_long_island.ipynb
+
+## Future Work
+* Itegrate more smoothly with Streamlet App
+* Add more datasets for comparison
+* Optimize for plotting larger time series
