@@ -10,15 +10,17 @@
 | Eli Holmes (NOAA Fisheries)  | Bigelow    | Project Facilitator |
 | Ian                 | Bigelow    | Participant         |
 | Gulce               | Bigelow    | Participant         |
+| Rafael              | Bigelow    | Participant         |
+| Adam                | Bigelow    | Participant         |
 | Adelle              | Bigelow    | Participant         |
 | Phil                | Bigelow    | Participant         |
 | Farley              | Bigelow    | Participant         |
 | Kasandra            | Bigelow    | Participant         |
-
+| Ben                 | Bigelow    | Participant         |
 
 ## Planning
 
-* Initial idea: "Create tutorials to access the PACE dataproducts and create visualizations"
+* Initial idea: "Create tutorials within a Streamlet app to access the PACE dataproducts and create visualizations"
 * Ideation Presentation: [Link](https://docs.google.com/presentation/d/1SR6d_zO2U5_nc25R4WQ_o4BMq0qJhAeIvwECZf4PzvU/edit#slide=id.p)
 * Slack channel: ohw24_proj_pace_us
 * Project google drive: TBD
@@ -30,5 +32,16 @@
 * [PACEToolkit, another PACE tutorial hackweek project](https://pacehackweek.github.io/proj_2024_PACEToolkit/intro.html)
 * https://hypercoast.org/
 * https://hypercoast.org/examples/pace/
+  
+## Relavent Links
 
+* IFCB data
+* Streamlet repo
 
+## Examples
+
+Open one of the example notebooks, load in the dependancies and data, and follow the instructions.
+Demo Notebooks:
+* Chlorophyll demo notebook
+* Hawai'i demo notebook
+* Long Island demo notebook
