@@ -51,6 +51,8 @@ Demo Notebooks:
 * Chlorophyll demo notebook: https://github.com/oceanhackweek/ohw24_proj_pace_us/blob/main/final_notebooks/
 * Hawai'i demo notebook: https://github.com/oceanhackweek/ohw24_proj_pace_us/blob/main/final_notebooks/
 * Long Island demo notebook: https://github.com/oceanhackweek/ohw24_proj_pace_us/blob/main/final_notebooks/bloom_viz_fm_long_island.ipynb
+* PACE with IFCB demo notebook:
+ https://github.com/oceanhackweek/ohw24_proj_pace_us/blob/main/final_notebooks/Hypercoast(PACE)_with_IFCB.ipynb 
 
 ## Future Work
 * Itegrate more smoothly with Streamlet App
